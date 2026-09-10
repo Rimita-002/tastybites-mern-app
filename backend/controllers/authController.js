@@ -126,3 +126,19 @@ export const logoutUser = async (req, res) => {
         return res.json({ message: 'Server error', success: false });
     }
 };
+
+
+
+export const getProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+        if (!user) {
+          return res.status(404).json({ message: 'User not found', success: false });
+        }
+        return res.json({ user, success: true });
+
+    } catch (error) {
+        console.log(error.message);
+        return res.json({ message: 'Server error', success: false });
+    }
+  }
